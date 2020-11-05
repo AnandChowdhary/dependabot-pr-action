@@ -29,6 +29,7 @@
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
     "@types/jest": "^26.0.14",
+    "@types/semver": "^7.3.4",
     "@zeit/ncc": "^0.22.3",
     "jest": "^26.5.2",
     "semantic-release": "^17.1.2",
@@ -39,7 +40,8 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "@koj/config": "^1.2.5"
+    "@koj/config": "^1.2.5",
+    "semver": "^7.3.2"
   },
   "jest": {
     "roots": [
