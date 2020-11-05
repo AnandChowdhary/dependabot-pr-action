@@ -1,11 +1,72 @@
-name: "Action.ts"
-description: "GitHub Actions starter for TypeScript with automated releases"
+name: "Dependabot Pull Request Action"
+description: "Add labels to, merge, or approve Dependabot pull requests"
 author: "Koj <https://github.com/koj.co>"
 inputs:
-  milliseconds:
+  token:
     required: true
-    description: "Number of milliseconds to wait"
-    default: "1000"
+    description: "GitHub token"
+  labels-major:
+    required: false
+  auto-label:
+    required: false
+  merge:
+    required: false
+  approve:
+    required: false
+  labels-premajor:
+    required: false
+  labels-minor:
+    required: false
+  labels-preminor:
+    required: false
+  labels-patch:
+    required: false
+  labels-prepatch:
+    required: false
+  labels-prerelease:
+    required: false
+  auto-label-major:
+    required: false
+  merge-major:
+    required: false
+  approve-major:
+    required: false
+  auto-label-premajor:
+    required: false
+  merge-premajor:
+    required: false
+  approve-premajor:
+    required: false
+  auto-label-minor:
+    required: false
+  merge-minor:
+    required: false
+  approve-minor:
+    required: false
+  auto-label-preminor:
+    required: false
+  merge-preminor:
+    required: false
+  approve-preminor:
+    required: false
+  auto-label-patch:
+    required: false
+  merge-patch:
+    required: false
+  approve-patch:
+    required: false
+  auto-label-prepatch:
+    required: false
+  merge-prepatch:
+    required: false
+  approve-prepatch:
+    required: false
+  auto-label-prerelease:
+    required: false
+  merge-prerelease:
+    required: false
+  approve-prerelease:
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"
