@@ -2677,7 +2677,7 @@ exports.run()
     console.error("ERROR", error);
     core_1.setFailed(error.message);
 });
-
+//# sourceMappingURL=index.js.map
 
 /***/ }),
 
