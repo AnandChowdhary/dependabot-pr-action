@@ -2580,10 +2580,12 @@ exports.run = async () => {
             let first = "";
             let last = "";
             try {
-                first = commit.commit.message.split("from ")[1].split(" ")[0];
-                last = commit.commit.message.split(" to ")[1].split(" ")[0];
+                first = commit.commit.message.split("from ")[1].split(" ")[0].trim();
+                last = commit.commit.message.split(" to ")[1].split(" ")[0].trim();
             }
             catch (error) { }
+            console.log("From version", first, semver_1.valid(first));
+            console.log("To version", last, semver_1.valid(last));
             if (first && last)
                 version = semver_1.diff(first, last);
         });
