@@ -11,6 +11,7 @@ export const run = async () => {
   const ignoreStatusChecks = getInput("ignore-status-checks");
 
   const addLabels = async (prNumber: number, labels?: string) => {
+    console.log("addLabels", prNumber, labels);
     if (labels) {
       const addLabels = labels.split(",").map((i) => i.trim());
       await octokit.issues.addLabels({
@@ -22,11 +23,13 @@ export const run = async () => {
     }
   };
   const autoMerge = async (prNumber: number) => {
+    console.log("autoMerge", prNumber);
     try {
       await octokit.pulls.merge({ owner, repo, pull_number: prNumber });
     } catch (error) {}
   };
   const autoApprove = async (prNumber: number) => {
+    console.log("autoApprove", prNumber);
     try {
       await octokit.pulls.createReview({ owner, repo, pull_number: prNumber, event: "APPROVE" });
     } catch (error) {}
@@ -34,7 +37,9 @@ export const run = async () => {
 
   const pullRequests = await octokit.pulls.list({ owner, repo, state: "open" });
   const dependabotPRs = pullRequests.data.filter((pr) => pr.user.login.includes("dependabot"));
+  console.log("Found dependabot PRs", dependabotPRs.length);
   for await (const pr of dependabotPRs) {
+    console.log("Starting PR", pr.number);
     const lastCommitHash = pr._links.statuses.href.split("/").pop() || "";
     const checkRuns = await octokit.checks.listForRef({ owner, repo, ref: lastCommitHash });
 
@@ -56,6 +61,8 @@ export const run = async () => {
     if (!allStatusesHaveSucceeded && !ignoreStatusChecks)
       return console.log("All statuses are not success", uniqueStatuses);
 
+    console.log("All status checks", allChecksHaveSucceeded, allStatusesHaveSucceeded);
+
     const commits = await octokit.pulls.listCommits({ owner, repo, pull_number: pr.number });
     let version: string | null = "";
     commits.data.forEach((commit) => {
@@ -69,58 +76,53 @@ export const run = async () => {
       console.log("To version", last, valid(last));
       if (first && last) version = diff(first, last);
     });
-    switch (version) {
-      case "major":
-        await addLabels(pr.number, getInput("labels-major"));
-        if (getInput("auto-label") || getInput("auto-label-major"))
-          await addLabels(pr.number, "major");
-        if (getInput("merge") || getInput("merge-major")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-major")) autoApprove(pr.number);
-        break;
-      case "premajor":
-        await addLabels(pr.number, getInput("labels-premajor"));
-        if (getInput("auto-label") || getInput("auto-label-premajor"))
-          await addLabels(pr.number, "premajor");
-        if (getInput("merge") || getInput("merge-premajor")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-premajor")) autoApprove(pr.number);
-        break;
-      case "minor":
-        await addLabels(pr.number, getInput("labels-minor"));
-        if (getInput("auto-label") || getInput("auto-label-minor"))
-          await addLabels(pr.number, "minor");
-        if (getInput("merge") || getInput("merge-minor")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-minor")) autoApprove(pr.number);
-        break;
-      case "preminor":
-        await addLabels(pr.number, getInput("labels-preminor"));
-        if (getInput("auto-label") || getInput("auto-label-preminor"))
-          await addLabels(pr.number, "preminor");
-        if (getInput("merge") || getInput("merge-preminor")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-preminor")) autoApprove(pr.number);
-        break;
-      case "patch":
-        await addLabels(pr.number, getInput("labels-patch"));
-        if (getInput("auto-label") || getInput("auto-label-patch"))
-          await addLabels(pr.number, "patch");
-        if (getInput("merge") || getInput("merge-patch")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-patch")) autoApprove(pr.number);
-        break;
-      case "prepatch":
-        await addLabels(pr.number, getInput("labels-prepatch"));
-        if (getInput("auto-label") || getInput("auto-label-prepatch"))
-          await addLabels(pr.number, "prepatch");
-        if (getInput("merge") || getInput("merge-prepatch")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-prepatch")) autoApprove(pr.number);
-        break;
-      case "prerelease":
-        await addLabels(pr.number, getInput("labels-prerelease"));
-        if (getInput("auto-label") || getInput("auto-label-prerelease"))
-          await addLabels(pr.number, "prerelease");
-        if (getInput("merge") || getInput("merge-prerelease")) autoMerge(pr.number);
-        if (getInput("approve") || getInput("approve-prerelease")) autoApprove(pr.number);
-        break;
+    console.log("Diff version is", version);
+    if (version === "major") {
+      await addLabels(pr.number, getInput("labels-major"));
+      if (getInput("auto-label") || getInput("auto-label-major"))
+        await addLabels(pr.number, "major");
+      if (getInput("merge") || getInput("merge-major")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-major")) autoApprove(pr.number);
+    } else if (version === "premajor") {
+      await addLabels(pr.number, getInput("labels-premajor"));
+      if (getInput("auto-label") || getInput("auto-label-premajor"))
+        await addLabels(pr.number, "premajor");
+      if (getInput("merge") || getInput("merge-premajor")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-premajor")) autoApprove(pr.number);
+    } else if (version === "minor") {
+      await addLabels(pr.number, getInput("labels-minor"));
+      if (getInput("auto-label") || getInput("auto-label-minor"))
+        await addLabels(pr.number, "minor");
+      if (getInput("merge") || getInput("merge-minor")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-minor")) autoApprove(pr.number);
+    } else if (version === "preminor") {
+      await addLabels(pr.number, getInput("labels-preminor"));
+      if (getInput("auto-label") || getInput("auto-label-preminor"))
+        await addLabels(pr.number, "preminor");
+      if (getInput("merge") || getInput("merge-preminor")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-preminor")) autoApprove(pr.number);
+    } else if (version === "patch") {
+      await addLabels(pr.number, getInput("labels-patch"));
+      if (getInput("auto-label") || getInput("auto-label-patch"))
+        await addLabels(pr.number, "patch");
+      if (getInput("merge") || getInput("merge-patch")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-patch")) autoApprove(pr.number);
+    } else if (version === "prepatch") {
+      await addLabels(pr.number, getInput("labels-prepatch"));
+      if (getInput("auto-label") || getInput("auto-label-prepatch"))
+        await addLabels(pr.number, "prepatch");
+      if (getInput("merge") || getInput("merge-prepatch")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-prepatch")) autoApprove(pr.number);
+    } else if (version === "prerelease") {
+      await addLabels(pr.number, getInput("labels-prerelease"));
+      if (getInput("auto-label") || getInput("auto-label-prerelease"))
+        await addLabels(pr.number, "prerelease");
+      if (getInput("merge") || getInput("merge-prerelease")) autoMerge(pr.number);
+      if (getInput("approve") || getInput("approve-prerelease")) autoApprove(pr.number);
     }
   }
+
+  console.log("All done!");
 };
 
 run()
