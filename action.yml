@@ -67,6 +67,8 @@ inputs:
     required: false
   approve-prerelease:
     required: false
+  ignore-status-checks:
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"
