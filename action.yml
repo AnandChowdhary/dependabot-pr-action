@@ -69,6 +69,8 @@ inputs:
     required: false
   ignore-status-checks:
     required: false
+  merge-commit:
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"
