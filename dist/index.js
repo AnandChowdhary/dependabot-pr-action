@@ -2558,7 +2558,9 @@ exports.run = async () => {
                     .replace("$PR_TITLE", prTitle),
             });
         }
-        catch (error) { }
+        catch (error) {
+            console.log(error);
+        }
     };
     const autoApprove = async (prNumber) => {
         console.log("autoApprove", prNumber);
