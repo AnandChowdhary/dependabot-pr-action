@@ -35,7 +35,9 @@ export const run = async () => {
           .replace("$PR_NUMBER", prNumber.toString())
           .replace("$PR_TITLE", prTitle),
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   const autoApprove = async (prNumber: number) => {
     console.log("autoApprove", prNumber);
