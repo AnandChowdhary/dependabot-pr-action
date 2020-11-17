@@ -8,6 +8,7 @@ export const run = async () => {
   if (!token) throw new Error("GitHub token not found");
   const [owner, repo] = (process.env.GITHUB_REPOSITORY || "").split("/");
   const octokit = getOctokit(token);
+  const ignoreStatusChecks = getInput("ignore-status-checks");
 
   const addLabels = async (prNumber: number, labels?: string) => {
     if (labels) {
@@ -34,6 +35,27 @@ export const run = async () => {
   const pullRequests = await octokit.pulls.list({ owner, repo, state: "open" });
   const dependabotPRs = pullRequests.data.filter((pr) => pr.user.login.includes("dependabot"));
   for await (const pr of dependabotPRs) {
+    const lastCommitHash = pr._links.statuses.href.split("/").pop() || "";
+    const checkRuns = await octokit.checks.listForRef({ owner, repo, ref: lastCommitHash });
+
+    const allChecksHaveSucceeded = checkRuns.data.check_runs.every(
+      (run) => run.conclusion === "success"
+    );
+    if (!allChecksHaveSucceeded && !ignoreStatusChecks)
+      return console.log("All check runs are not success", checkRuns.data);
+
+    const statuses = await octokit.repos.listCommitStatusesForRef({
+      owner,
+      repo,
+      ref: lastCommitHash,
+    });
+    const uniqueStatuses = statuses.data.filter(
+      (item, index, self) => self.map((i) => i.context).indexOf(item.context) === index
+    );
+    const allStatusesHaveSucceeded = uniqueStatuses.every((run) => run.state === "success");
+    if (!allStatusesHaveSucceeded && !ignoreStatusChecks)
+      return console.log("All statuses are not success", uniqueStatuses);
+
     const commits = await octokit.pulls.listCommits({ owner, repo, pull_number: pr.number });
     let version: string | null = "";
     commits.data.forEach((commit) => {
