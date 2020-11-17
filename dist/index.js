@@ -2528,6 +2528,7 @@ const core_1 = __webpack_require__(470);
 const github_1 = __webpack_require__(469);
 const semver_1 = __webpack_require__(876);
 const token = core_1.getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 exports.run = async () => {
     if (!token)
         throw new Error("GitHub token not found");
@@ -2546,8 +2547,10 @@ exports.run = async () => {
             });
         }
     };
-    const autoMerge = async (prNumber, prTitle) => {
-        console.log("autoMerge", prNumber);
+    const autoMerge = async (prNumber, prTitle, tryNumber = 1) => {
+        if (tryNumber > 10)
+            return;
+        console.log("autoMerge", prNumber, tryNumber);
         try {
             await octokit.pulls.merge({
                 owner,
@@ -2560,6 +2563,8 @@ exports.run = async () => {
         }
         catch (error) {
             console.log(error);
+            await wait(tryNumber * 1000);
+            await autoMerge(prNumber, prTitle, tryNumber + 1);
         }
     };
     const autoApprove = async (prNumber) => {
