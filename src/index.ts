@@ -22,10 +22,19 @@ export const run = async () => {
       });
     }
   };
-  const autoMerge = async (prNumber: number) => {
+  const autoMerge = async (prNumber: number, prTitle: string) => {
     console.log("autoMerge", prNumber);
     try {
-      await octokit.pulls.merge({ owner, repo, pull_number: prNumber });
+      await octokit.pulls.merge({
+        owner,
+        repo,
+        pull_number: prNumber,
+        commit_title: (
+          getInput("merge-commit") || `:twisted_rightwards_arrows: Merge #$PR_NUMBER ($PR_TITLE)`
+        )
+          .replace("$PR_NUMBER", prNumber.toString())
+          .replace("$PR_TITLE", prTitle),
+      });
     } catch (error) {}
   };
   const autoApprove = async (prNumber: number) => {
@@ -81,43 +90,43 @@ export const run = async () => {
       await addLabels(pr.number, getInput("labels-major"));
       if (getInput("auto-label") || getInput("auto-label-major"))
         await addLabels(pr.number, "major");
-      if (getInput("merge") || getInput("merge-major")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-major")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-major")) autoApprove(pr.number);
     } else if (version === "premajor") {
       await addLabels(pr.number, getInput("labels-premajor"));
       if (getInput("auto-label") || getInput("auto-label-premajor"))
         await addLabels(pr.number, "premajor");
-      if (getInput("merge") || getInput("merge-premajor")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-premajor")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-premajor")) autoApprove(pr.number);
     } else if (version === "minor") {
       await addLabels(pr.number, getInput("labels-minor"));
       if (getInput("auto-label") || getInput("auto-label-minor"))
         await addLabels(pr.number, "minor");
-      if (getInput("merge") || getInput("merge-minor")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-minor")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-minor")) autoApprove(pr.number);
     } else if (version === "preminor") {
       await addLabels(pr.number, getInput("labels-preminor"));
       if (getInput("auto-label") || getInput("auto-label-preminor"))
         await addLabels(pr.number, "preminor");
-      if (getInput("merge") || getInput("merge-preminor")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-preminor")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-preminor")) autoApprove(pr.number);
     } else if (version === "patch") {
       await addLabels(pr.number, getInput("labels-patch"));
       if (getInput("auto-label") || getInput("auto-label-patch"))
         await addLabels(pr.number, "patch");
-      if (getInput("merge") || getInput("merge-patch")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-patch")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-patch")) autoApprove(pr.number);
     } else if (version === "prepatch") {
       await addLabels(pr.number, getInput("labels-prepatch"));
       if (getInput("auto-label") || getInput("auto-label-prepatch"))
         await addLabels(pr.number, "prepatch");
-      if (getInput("merge") || getInput("merge-prepatch")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-prepatch")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-prepatch")) autoApprove(pr.number);
     } else if (version === "prerelease") {
       await addLabels(pr.number, getInput("labels-prerelease"));
       if (getInput("auto-label") || getInput("auto-label-prerelease"))
         await addLabels(pr.number, "prerelease");
-      if (getInput("merge") || getInput("merge-prerelease")) autoMerge(pr.number);
+      if (getInput("merge") || getInput("merge-prerelease")) autoMerge(pr.number, pr.title);
       if (getInput("approve") || getInput("approve-prerelease")) autoApprove(pr.number);
     }
   }
