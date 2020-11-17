@@ -3,6 +3,7 @@ import { getOctokit } from "@actions/github";
 import { diff, valid } from "semver";
 
 const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const run = async () => {
   if (!token) throw new Error("GitHub token not found");
@@ -22,8 +23,9 @@ export const run = async () => {
       });
     }
   };
-  const autoMerge = async (prNumber: number, prTitle: string) => {
-    console.log("autoMerge", prNumber);
+  const autoMerge = async (prNumber: number, prTitle: string, tryNumber = 1) => {
+    if (tryNumber > 10) return;
+    console.log("autoMerge", prNumber, tryNumber);
     try {
       await octokit.pulls.merge({
         owner,
@@ -37,6 +39,8 @@ export const run = async () => {
       });
     } catch (error) {
       console.log(error);
+      await wait(tryNumber * 1000);
+      await autoMerge(prNumber, prTitle, tryNumber + 1);
     }
   };
   const autoApprove = async (prNumber: number) => {
