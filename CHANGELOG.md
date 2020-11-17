@@ -1,3 +1,9 @@
+## [v1.1.7](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.6...v1.1.7) (2020-11-17)
+
+### ♻️ Updates
+
+- [`6674524`](https://github.com/koj-co/dependabot-pr-action/commit/6674524)  Keep trying to merge up to 10 times
+
 ## [v1.1.6](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.5...v1.1.6) (2020-11-17)
 
 ### ⬆️ Dependency updates
