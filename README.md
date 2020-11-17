@@ -80,7 +80,7 @@ To configure the workflow, you can set any of these inputs to `true`:
 - If you set any `merge` parameter to `true`, the resulting pull request will be auto-merged, if all checks have passed
 - If you set any `approve` parameter to `true`, the pull request will be automatically approved (with a pull request review), if all checks have passed
 
-If you don't want to check for status checks, you can set the input `ignore-status-checks` to `true`.
+If you don't want to check for status checks, you can set the input `ignore-status-checks` to `true`. You can also set the `merge-commit` input if you want a custom merge commit message.
 
 ## 📄 License
 
