@@ -76,9 +76,11 @@ To configure the workflow, you can set any of these inputs to `true`:
 | `merge-prepatch`        | Merge prepatch releases        |
 | `merge-prerelease`      | Merge prerelease releases      |
 
-- If you set any `auto-label` parameter to `true`, the release type (major, minor, etc.) label will be added to the pull request automatically.
-- If you set any `merge` parameter to `true`, the resulting pull request will be auto-merged, regardless of the status checks
-- If you set any `approve` parameter to `true`, the pull request will be automatically approved (with a pull request review)
+- If you set any `auto-label` parameter to `true`, the release type (major, minor, etc.) label will be added to the pull request automatically, if all checks have passed
+- If you set any `merge` parameter to `true`, the resulting pull request will be auto-merged, if all checks have passed
+- If you set any `approve` parameter to `true`, the pull request will be automatically approved (with a pull request review), if all checks have passed
+
+If you don't want to check for status checks, you can set the input `ignore-status-checks` to `true`.
 
 ## 📄 License
 
