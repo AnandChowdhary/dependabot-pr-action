@@ -1,6 +1,6 @@
 import { getInput, setFailed } from "@actions/core";
 import { getOctokit } from "@actions/github";
-import { diff } from "semver";
+import { diff, valid } from "semver";
 
 const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
 
@@ -62,9 +62,11 @@ export const run = async () => {
       let first = "";
       let last = "";
       try {
-        first = commit.commit.message.split("from ")[1].split(" ")[0];
-        last = commit.commit.message.split(" to ")[1].split(" ")[0];
+        first = commit.commit.message.split("from ")[1].split(" ")[0].trim();
+        last = commit.commit.message.split(" to ")[1].split(" ")[0].trim();
       } catch (error) {}
+      console.log("From version", first, valid(first));
+      console.log("To version", last, valid(last));
       if (first && last) version = diff(first, last);
     });
     switch (version) {
