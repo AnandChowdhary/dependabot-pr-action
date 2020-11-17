@@ -1,3 +1,9 @@
+## [v1.1.6](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.5...v1.1.6) (2020-11-17)
+
+### ⬆️ Dependency updates
+
+- [`a815563`](https://github.com/koj-co/dependabot-pr-action/commit/a815563)  Update koj-co/github-actions-starter
+
 ## [v1.1.5](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.4...v1.1.5) (2020-11-17)
 
 ## [v1.1.4](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.3...v1.1.4) (2020-11-17)
