@@ -2546,10 +2546,17 @@ exports.run = async () => {
             });
         }
     };
-    const autoMerge = async (prNumber) => {
+    const autoMerge = async (prNumber, prTitle) => {
         console.log("autoMerge", prNumber);
         try {
-            await octokit.pulls.merge({ owner, repo, pull_number: prNumber });
+            await octokit.pulls.merge({
+                owner,
+                repo,
+                pull_number: prNumber,
+                commit_title: (core_1.getInput("merge-commit") || `:twisted_rightwards_arrows: Merge #$PR_NUMBER ($PR_TITLE)`)
+                    .replace("$PR_NUMBER", prNumber.toString())
+                    .replace("$PR_TITLE", prTitle),
+            });
         }
         catch (error) { }
     };
@@ -2601,7 +2608,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-major"))
                 await addLabels(pr.number, "major");
             if (core_1.getInput("merge") || core_1.getInput("merge-major"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-major"))
                 autoApprove(pr.number);
         }
@@ -2610,7 +2617,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-premajor"))
                 await addLabels(pr.number, "premajor");
             if (core_1.getInput("merge") || core_1.getInput("merge-premajor"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-premajor"))
                 autoApprove(pr.number);
         }
@@ -2619,7 +2626,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-minor"))
                 await addLabels(pr.number, "minor");
             if (core_1.getInput("merge") || core_1.getInput("merge-minor"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-minor"))
                 autoApprove(pr.number);
         }
@@ -2628,7 +2635,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-preminor"))
                 await addLabels(pr.number, "preminor");
             if (core_1.getInput("merge") || core_1.getInput("merge-preminor"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-preminor"))
                 autoApprove(pr.number);
         }
@@ -2637,7 +2644,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-patch"))
                 await addLabels(pr.number, "patch");
             if (core_1.getInput("merge") || core_1.getInput("merge-patch"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-patch"))
                 autoApprove(pr.number);
         }
@@ -2646,7 +2653,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-prepatch"))
                 await addLabels(pr.number, "prepatch");
             if (core_1.getInput("merge") || core_1.getInput("merge-prepatch"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-prepatch"))
                 autoApprove(pr.number);
         }
@@ -2655,7 +2662,7 @@ exports.run = async () => {
             if (core_1.getInput("auto-label") || core_1.getInput("auto-label-prerelease"))
                 await addLabels(pr.number, "prerelease");
             if (core_1.getInput("merge") || core_1.getInput("merge-prerelease"))
-                autoMerge(pr.number);
+                autoMerge(pr.number, pr.title);
             if (core_1.getInput("approve") || core_1.getInput("approve-prerelease"))
                 autoApprove(pr.number);
         }
