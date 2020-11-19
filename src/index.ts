@@ -84,12 +84,22 @@ export const run = async () => {
       let first = "";
       let last = "";
       try {
-        first = commit.commit.message.split("from ")[1].split(" ")[0].split("\n")[0].trim();
-        last = commit.commit.message.split(" to ")[1].split(" ")[0].split("\n")[0].trim();
+        first = commit.commit.message
+          .split("from ")[1]
+          .split(" ")[0]
+          .split("\n")[0]
+          .trim()
+          .substr(0, 5);
+        last = commit.commit.message
+          .split(" to ")[1]
+          .split(" ")[0]
+          .split("\n")[0]
+          .trim()
+          .substr(0, 5);
+        console.log("From version", first, valid(first));
+        console.log("To version", last, valid(last));
+        if (first && last) version = diff(first, last);
       } catch (error) {}
-      console.log("From version", first, valid(first));
-      console.log("To version", last, valid(last));
-      if (first && last) version = diff(first, last);
     });
     console.log("Diff version is", version);
     if (version === "major") {
