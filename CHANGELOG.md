@@ -1,3 +1,14 @@
+## [v1.1.8](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.7...v1.1.8) (2020-11-19)
+
+### 🐛 Bug fixes
+
+- [`f985e3d`](https://github.com/koj-co/dependabot-pr-action/commit/f985e3d)  Take 5-char semver, diff
+
+### ⬆️ Dependency updates
+
+- [`d3644a2`](https://github.com/koj-co/dependabot-pr-action/commit/d3644a2)  Bump @koj/config from 1.2.8 to 1.2.9
+- [`1e75481`](https://github.com/koj-co/dependabot-pr-action/commit/1e75481)  Bump vsoch/pull-request-action from 1.0.11 to 1.0.12
+
 ## [v1.1.7](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.6...v1.1.7) (2020-11-17)
 
 ### ♻️ Updates
