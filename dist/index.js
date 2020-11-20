@@ -2599,14 +2599,15 @@ const run = async () => {
         commits.data.forEach((commit) => {
             let first = "";
             let last = "";
+            console.log(pr.title);
             try {
-                first = commit.commit.message
+                first = pr.title
                     .split("from ")[1]
                     .split(" ")[0]
                     .split("\n")[0]
                     .trim()
                     .substr(0, 5);
-                last = commit.commit.message
+                last = pr.title
                     .split(" to ")[1]
                     .split(" ")[0]
                     .split("\n")[0]
