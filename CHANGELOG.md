@@ -1,3 +1,13 @@
+## [v1.1.9](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.8...v1.1.9) (2020-11-20)
+
+### ♻️ Updates
+
+- [`66eef11`](https://github.com/koj-co/dependabot-pr-action/commit/66eef11)  Use pr.title instead of commit.message
+
+### ⬆️ Dependency updates
+
+- [`c146db4`](https://github.com/koj-co/dependabot-pr-action/commit/c146db4)  Bump typescript from 4.0.5 to 4.1.2
+
 ## [v1.1.8](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.7...v1.1.8) (2020-11-19)
 
 ### 🐛 Bug fixes
