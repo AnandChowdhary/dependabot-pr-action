@@ -2529,7 +2529,7 @@ const github_1 = __webpack_require__(469);
 const semver_1 = __webpack_require__(876);
 const token = core_1.getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-exports.run = async () => {
+const run = async () => {
     if (!token)
         throw new Error("GitHub token not found");
     const [owner, repo] = (process.env.GITHUB_REPOSITORY || "").split("/");
@@ -2686,6 +2686,7 @@ exports.run = async () => {
     }
     console.log("All done!");
 };
+exports.run = run;
 exports.run()
     .then(() => { })
     .catch((error) => {
