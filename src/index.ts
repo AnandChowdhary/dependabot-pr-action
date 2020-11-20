@@ -89,14 +89,14 @@ export const run = async () => {
           .split("from ")[1]
           .split(" ")[0]
           .split("\n")[0]
-          .trim()
-          .substr(0, 5);
+          .substr(0, 8)
+          .trim();
         last = pr.title
           .split(" to ")[1]
           .split(" ")[0]
           .split("\n")[0]
-          .trim()
-          .substr(0, 5);
+          .substr(0, 8)
+          .trim();
         console.log("From version", first, valid(first));
         console.log("To version", last, valid(last));
         if (first && last) version = diff(first, last);
