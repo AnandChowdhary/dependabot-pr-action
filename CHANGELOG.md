@@ -1,3 +1,9 @@
+## [v1.1.10](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.9...v1.1.10) (2020-11-20)
+
+### 🐛 Bug fixes
+
+- [`743f19f`](https://github.com/koj-co/dependabot-pr-action/commit/743f19f)  Use up to 8 chars in semver
+
 ## [v1.1.9](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.8...v1.1.9) (2020-11-20)
 
 ### ♻️ Updates
