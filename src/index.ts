@@ -61,8 +61,10 @@ export const run = async () => {
     const allChecksHaveSucceeded = checkRuns.data.check_runs.every(
       (run) => run.conclusion === "success"
     );
-    if (!allChecksHaveSucceeded && !ignoreStatusChecks)
-      return console.log("All check runs are not success", checkRuns.data);
+    if (!allChecksHaveSucceeded && !ignoreStatusChecks) {
+      console.log("All check runs are not success", checkRuns.data);
+      continue;
+    }
 
     const statuses = await octokit.repos.listCommitStatusesForRef({
       owner,
@@ -73,8 +75,10 @@ export const run = async () => {
       (item, index, self) => self.map((i) => i.context).indexOf(item.context) === index
     );
     const allStatusesHaveSucceeded = uniqueStatuses.every((run) => run.state === "success");
-    if (!allStatusesHaveSucceeded && !ignoreStatusChecks)
-      return console.log("All statuses are not success", uniqueStatuses);
+    if (!allStatusesHaveSucceeded && !ignoreStatusChecks) {
+      console.log("All statuses are not success", uniqueStatuses);
+      break;
+    }
 
     console.log("All status checks", allChecksHaveSucceeded, allStatusesHaveSucceeded);
 
