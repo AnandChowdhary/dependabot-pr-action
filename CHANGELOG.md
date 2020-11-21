@@ -1,3 +1,13 @@
+## [v1.1.11](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.10...v1.1.11) (2020-11-21)
+
+### 🐛 Bug fixes
+
+- [`2312e7e`](https://github.com/koj-co/dependabot-pr-action/commit/2312e7e)  Continue loop instead of returning if skip
+
+### ⬆️ Dependency updates
+
+- [`16807ac`](https://github.com/koj-co/dependabot-pr-action/commit/16807ac)  Bump semantic-release from 17.2.3 to 17.2.4
+
 ## [v1.1.10](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.9...v1.1.10) (2020-11-20)
 
 ### 🐛 Bug fixes
