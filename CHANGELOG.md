@@ -1,3 +1,11 @@
+## [v1.1.12](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.11...v1.1.12) (2020-12-02)
+
+### ⬆️ Dependency updates
+
+- [`d5df647`](https://github.com/koj-co/dependabot-pr-action/commit/d5df647)  Bump semantic-release from 17.2.4 to 17.3.0
+- [`b50f7bf`](https://github.com/koj-co/dependabot-pr-action/commit/b50f7bf)  Bump semver from 7.3.2 to 7.3.4
+- [`61130d3`](https://github.com/koj-co/dependabot-pr-action/commit/61130d3)  Bump @types/jest from 26.0.15 to 26.0.16
+
 ## [v1.1.11](https://github.com/koj-co/dependabot-pr-action/compare/v1.1.10...v1.1.11) (2020-11-21)
 
 ### 🐛 Bug fixes
