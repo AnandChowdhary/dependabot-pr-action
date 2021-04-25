@@ -2658,7 +2658,7 @@ const run = async () => {
         console.log("Starting PR", pr.number);
         const lastCommitHash = pr._links.statuses.href.split("/").pop() || "";
         const checkRuns = await octokit.checks.listForRef({ owner, repo, ref: lastCommitHash });
-        const allChecksHaveSucceeded = checkRuns.data.check_runs.every((run) => run.conclusion === "success");
+        const allChecksHaveSucceeded = checkRuns.data.check_runs.every((run) => run.conclusion === "success" || run.conclusion === "skipped");
         if (!allChecksHaveSucceeded && !ignoreStatusChecks) {
             console.log("All check runs are not success", checkRuns.data);
             continue;
