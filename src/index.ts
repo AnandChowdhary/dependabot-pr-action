@@ -59,7 +59,7 @@ export const run = async () => {
     const checkRuns = await octokit.checks.listForRef({ owner, repo, ref: lastCommitHash });
 
     const allChecksHaveSucceeded = checkRuns.data.check_runs.every(
-      (run) => run.conclusion === "success"
+      (run) => run.conclusion === "success" || run.conclusion === "skipped"
     );
     if (!allChecksHaveSucceeded && !ignoreStatusChecks) {
       console.log("All check runs are not success", checkRuns.data);
