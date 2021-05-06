@@ -2672,7 +2672,7 @@ const run = async () => {
         const allStatusesHaveSucceeded = uniqueStatuses.every((run) => run.state === "success");
         if (!allStatusesHaveSucceeded && !ignoreStatusChecks) {
             console.log("All statuses are not success", uniqueStatuses);
-            break;
+            continue;
         }
         console.log("All status checks", allChecksHaveSucceeded, allStatusesHaveSucceeded);
         const commits = await octokit.pulls.listCommits({ owner, repo, pull_number: pr.number });
